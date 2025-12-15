@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Новый студент</title>
+		<link rel="stylesheet" th:href="@{/css/main.css}" />
+		<style>
+			.error {
+				color: #dc3545;
+				font-size: 0.875em;
+				margin-top: 0.25rem;
+			}
+			.form-group {
+				margin-bottom: 1rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1
+				th:text="${studentForm.id == null} ? 'Добавить студента' : 'Редактировать студента'"
+			></h1>
+
+			<form
+				th:action="${studentForm.id} == null ? @{/students/addStudentForm} : @{/student/editStudent/{id}(id=${studentForm.id})}"
+				th:object="${studentForm}"
+				method="post"
+			>
+				<input type="hidden" th:field="*{id}" />
+
+				<!-- Основная информация -->
+				<div class="form-section">
+					<h3>Основная информация</h3>
+
+					<div class="form-group">
+						<label for="lastName">Фамилия *</label>
+						<input
+							type="text"
+							id="lastName"
+							th:field="*{lastName}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'"
+						/>
+						<div
+							th:if="${#fields.hasErrors('lastName')}"
+							th:errors="*{lastName}"
+							class="error"
+						></div>
+					</div>
+
+					<div class="form-group">
+						<label for="firstName">Имя *</label>
+						<input
+							type="text"
+							id="firstName"
+							th:field="*{firstName}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'"
+						/>
+						<div
+							th:if="${#fields.hasErrors('firstName')}"
+							th:errors="*{firstName}"
+							class="error"
+						></div>
+					</div>
+
+					<div class="form-group">
+						<label for="patronymic">Отчество</label>
+						<input
+							type="text"
+							id="patronymic"
+							th:field="*{patronymic}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('patronymic')} ? 'is-invalid'"
+						/>
+						<div
+							th:if="${#fields.hasErrors('patronymic')}"
+							th:errors="*{patronymic}"
+							class="error"
+						></div>
+					</div>
+
+					<div class="form-group">
+						<label for="gender">Пол *</label>
+						<select
+							id="gender"
+							th:field="*{gender}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('gender')} ? 'is-invalid'"
+						>
+							<option value="">Выберите пол</option>
+							<option value="Мужской">Мужской</option>
+							<option value="Женский">Женский</option>
+						</select>
+						<div
+							th:if="${#fields.hasErrors('gender')}"
+							th:errors="*{gender}"
+							class="error"
+						></div>
+					</div>
+
+					<div class="form-group">
+						<label for="nationality">Национальность *</label>
+						<input
+							type="text"
+							id="nationality"
+							th:field="*{nationality}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('nationality')} ? 'is-invalid'"
+						/>
+						<div
+							th:if="${#fields.hasErrors('nationality')}"
+							th:errors="*{nationality}"
+							class="error"
+						></div>
+					</div>
+				</div>
+
+				<!-- Физические данные -->
+				<div class="form-section">
+					<h3>Физические данные</h3>
+
+					<div class="form-group">
+						<label for="height">Рост (см) *</label>
+						<input
+							type="number"
+							id="height"
+							step="0.1"
+							th:field="*{height}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('height')} ? 'is-invalid'"
+						/>
+						<div
+							th:if="${#fields.hasErrors('height')}"
+							th:errors="*{height}"
+							class="error"
+						></div>
+					</div>
+
+					<div class="form-group">
+						<label for="weight">Вес (кг) *</label>
+						<input
+							type="number"
+							id="weight"
+							step="0.1"
+							th:field="*{weight}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('weight')} ? 'is-invalid'"
+						/>
+						<div
+							th:if="${#fields.hasErrors('weight')}"
+							th:errors="*{weight}"
+							class="error"
+						></div>
+					</div>
+
+					<div class="form-group">
+						<label for="birthDate">Дата рождения *</label>
+						<input
+							type="date"
+							id="birthDate"
+							th:field="*{birthDate}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('birthDate')} ? 'is-invalid'"
+						/>
+						<div
+							th:if="${#fields.hasErrors('birthDate')}"
+							th:errors="*{birthDate}"
+							class="error"
+						></div>
+					</div>
+				</div>
+
+				<!-- Контакты -->
+				<div class="form-section">
+					<h3>Контакты</h3>
+
+					<div class="form-group">
+						<label for="phoneNumber">Номер телефона *</label>
+						<input
+							type="tel"
+							id="phoneNumber"
+							th:field="*{phoneNumber}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('phoneNumber')} ? 'is-invalid'"
+							placeholder="+79991234567"
+						/>
+						<div
+							th:if="${#fields.hasErrors('phoneNumber')}"
+							th:errors="*{phoneNumber}"
+							class="error"
+						></div>
+					</div>
+
+					<div class="form-group">
+						<label for="city">Город *</label>
+						<input
+							type="text"
+							id="city"
+							th:field="*{city}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('city')} ? 'is-invalid'"
+							placeholder="Москва"
+						/>
+						<div
+							th:if="${#fields.hasErrors('city')}"
+							th:errors="*{city}"
+							class="error"
+						></div>
+					</div>
+
+					<div class="form-group">
+						<label for="street">Улица *</label>
+						<input
+							type="text"
+							id="street"
+							th:field="*{street}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('street')} ? 'is-invalid'"
+							placeholder="Тверская"
+						/>
+						<div
+							th:if="${#fields.hasErrors('street')}"
+							th:errors="*{street}"
+							class="error"
+						></div>
+					</div>
+
+					<div class="form-group">
+						<label for="house">Дом *</label>
+						<input
+							type="text"
+							id="house"
+							th:field="*{house}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('house')} ? 'is-invalid'"
+							placeholder="10"
+						/>
+						<div
+							th:if="${#fields.hasErrors('house')}"
+							th:errors="*{house}"
+							class="error"
+						></div>
+					</div>
+
+					<div class="form-group">
+						<label for="apartment">Квартира</label>
+						<input
+							type="text"
+							id="apartment"
+							th:field="*{apartment}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('apartment')} ? 'is-invalid'"
+							placeholder="15"
+						/>
+						<div
+							th:if="${#fields.hasErrors('apartment')}"
+							th:errors="*{apartment}"
+							class="error"
+						></div>
+					</div>
+				</div>
+
+				<!-- Учебная информация -->
+				<div class="form-section">
+					<h3>Учебная информация</h3>
+
+					<div class="form-group">
+						<label for="gpa">Средний балл (GPA) *</label>
+						<input
+							type="number"
+							id="gpa"
+							step="0.1"
+							min="0"
+							max="5"
+							th:field="*{gpa}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('gpa')} ? 'is-invalid'"
+						/>
+						<div
+							th:if="${#fields.hasErrors('gpa')}"
+							th:errors="*{gpa}"
+							class="error"
+						></div>
+					</div>
+
+					<div class="form-group">
+						<label for="studentGroupId">Группа *</label>
+						<select
+							id="studentGroupId"
+							th:field="*{studentGroupId}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('studentGroupId')} ? 'is-invalid'"
+						>
+							<option value="">Выберите группу</option>
+							<option
+								th:each="group : ${groups}"
+								th:value="${group.id}"
+								th:text="${group.name + ' (' + group.speciality + ') - ' + group.university.name}"
+							></option>
+						</select>
+						<div
+							th:if="${#fields.hasErrors('studentGroupId')}"
+							th:errors="*{studentGroupId}"
+							class="error"
+						></div>
+					</div>
+				</div>
+
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary">Сохранить</button>
+					<a th:href="@{/institut}" class="btn btn-secondary">Отмена</a>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
