@@ -105,7 +105,7 @@ public class MainController {
         return "redirect:/institut";
     }
 
-    @PostMapping("/student/editStudent/{id}")
+    @PostMapping("/students/editStudent/{id}")
     public String editStudent(@PathVariable(name = "id") Long id, @Valid @ModelAttribute StudentForm studentForm, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("groups", serviceStudentGroup.findAllStudentGroup());
@@ -113,13 +113,20 @@ public class MainController {
         }
 
         Optional<StudentDto> existingStudent = serviceStudent.getStudentById(id);
-        if (existingStudent.isPresent()) {
-            StudentCreateDto student = new StudentCreateDto();
-
-            serviceStudent.createStudent(student);
+        if (existingStudent.isEmpty()) {
+            return "redirect:/institut";
         }
 
-        return "redirect:/institut";
+        StudentUpdateDto student = convertFormToUpdateRequest(studentForm);
+
+        try {
+            serviceStudent.updateStudent(id, student);
+            return "redirect:/institut";
+        } catch (Exception e) {
+            model.addAttribute("error", "Ошибка при обновлении студента: " + e.getMessage());
+            model.addAttribute("groups", serviceStudentGroup.findAllStudentGroup());
+            return "addStudentForm";
+        }
     }
 
     @GetMapping("/students/search")
@@ -269,7 +276,6 @@ public class MainController {
         request.setBirthDate(form.getBirthDate());
         request.setPhoneNumber(form.getPhoneNumber());
         request.setGpa(form.getGpa());
-        request.setSpeciality("123");
 
 
         request.setCity(form.getCity());
@@ -296,7 +302,6 @@ public class MainController {
         if (form.getBirthDate() != null) request.setBirthDate(form.getBirthDate());
         if (form.getPhoneNumber() != null) request.setPhoneNumber(form.getPhoneNumber());
         if (form.getGpa() != null) request.setGpa(form.getGpa());
-        request.setSpeciality("form.getSpeciality()");
 
         if (form.getCity() != null) request.setCity(form.getCity());
         if (form.getStreet() != null) request.setStreet(form.getStreet());

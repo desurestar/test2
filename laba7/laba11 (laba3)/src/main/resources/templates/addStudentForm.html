@@ -9,8 +9,9 @@
 <body>
 <div class="container">
     <h1 th:text="${studentForm.id == null} ? 'Добавить студента' : 'Редактировать студента'"></h1>
+    <div th:if="${error}" class="error" th:text="${error}"></div>
 
-    <form th:action="@{/students/addStudentForm}" th:object="${studentForm}" method="post">
+    <form th:action="${studentForm.id == null} ? @{/students/addStudentForm} : @{'/students/editStudent/' + ${studentForm.id}}" th:object="${studentForm}" method="post">
         <input type="hidden" th:field="*{id}" />
 
         <div class="form-section">
